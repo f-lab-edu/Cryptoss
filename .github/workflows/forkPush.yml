@@ -2,19 +2,25 @@ name: git push into another repo to deploy to vercel
 
 on:
   push:
-    branches: [main]
+    branches: ["**"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     container: pandoc/latex
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source
+        uses: actions/checkout@v2
+
       - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+        run: |
+          apk add ruby
+          gem install mustache
+
       - name: creates output
         run: sh ./build.sh
-      - name: Pushes to another repository
+
+      - name: Pushes output to forked repo
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -25,7 +31,27 @@ jobs:
           destination-repository-name: Cryptoss
           force: true
           user-email: ${{ secrets.PUBLISH_ACCOUNT_EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: ${{ github.event.head_commit.message }}
           target-branch: main
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
+
+      - name: Verify output push
+        run: echo "Cloned dir: $DESTINATION_CLONED_DIRECTORY"
+
+  sync-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Add fork as remote
+        run: |
+          git remote add fork \
+            https://x-access-token:${{ secrets.KRYPTOSS_GA }}@github.com/liketiger/Cryptoss.git
+
+      - name: Force-sync main → fork/main
+        run: |
+          git checkout main
+          git reset --hard origin/main
+          git push fork main --force

@@ -2,12 +2,14 @@ name: git push into another repo to deploy to vercel
 
 on:
   push:
-    branches: ["**"]
+    branches:
+      - "**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     container: pandoc/latex
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -26,7 +28,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.KRYPTOSS_GA }}
         with:
-          source-directory: 'output'
+          source-directory: output
           destination-github-username: liketiger
           destination-repository-name: Cryptoss
           force: true
@@ -35,5 +37,24 @@ jobs:
           target-branch: main
 
       - name: Verify output push
-        run: echo "Cloned dir: $DESTINATION_CLONED_DIRECTORY"
-        
+        run: |
+          echo "Cloned dir: $DESTINATION_CLONED_DIRECTORY"
+
+  sync-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Add fork as remote
+        run: |
+          git remote add fork \
+            https://x-access-token:${{ secrets.KRYPTOSS_GA }}@github.com/liketiger/Cryptoss.git
+
+      - name: Force-sync main → fork/main
+        run: |
+          git checkout main
+          git reset --hard origin/main
+          git push fork main --force

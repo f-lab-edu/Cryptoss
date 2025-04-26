@@ -36,22 +36,4 @@ jobs:
 
       - name: Verify output push
         run: echo "Cloned dir: $DESTINATION_CLONED_DIRECTORY"
-
-  sync-history:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout full history
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Add fork as remote
-        run: |
-          git remote add fork \
-            https://x-access-token:${{ secrets.KRYPTOSS_GA }}@github.com/liketiger/Cryptoss.git
-
-      - name: Force-sync main → fork/main
-        run: |
-          git checkout main
-          git reset --hard origin/main
-          git push fork main --force
+        

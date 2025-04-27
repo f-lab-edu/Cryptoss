@@ -13,8 +13,11 @@
   /* color */
   --color-background: var(--background);
   --color-background-toss: var(--background-toss);
+  --color-background-toss-light: var(--background-toss-light);
   --color-background-toss-secondary: var(--background-toss-secondary);
-  --color-background-toss-secondary-light: var(--background-toss-secondary-light);
+  --color-background-toss-secondary-light: var(
+    --background-toss-secondary-light
+  );
   --color-background-toss-tertiary: var(--background-toss-tertiary);
   --color-background-toss-bull: var(--background-toss-bull);
   --color-background-toss-bear: var(--background-toss-bear);
@@ -102,6 +105,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   /* cryptoss design */
   --background-toss: oklch(0.21 0.0098 285.51);
+  --background-toss-light: oklch(0.92 0.0013 286.37);
   --background-toss-secondary: oklch(0.3 0.018 289.85);
   --background-toss-secondary-light: oklch(0.22 0.0116 285.43);
   --background-toss-tertiary: oklch(0.42 0.0197 285.53);

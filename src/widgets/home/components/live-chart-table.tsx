@@ -29,7 +29,7 @@ export default function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
   const usdKrw = useUsdKrwExchangeRate();
   const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
-
+  
   return (
     <Table>
       <TableHeader>

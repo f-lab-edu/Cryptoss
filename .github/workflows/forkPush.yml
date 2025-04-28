@@ -38,4 +38,3 @@ jobs:
       - name: Verify output push
         run: |
           echo "Cloned dir: $DESTINATION_CLONED_DIRECTORY"
-          

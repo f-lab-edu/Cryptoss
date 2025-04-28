@@ -11,6 +11,9 @@ import { cn } from "@/shared/lib/utils";
 import useBinanceTickerInfo from "../hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
 import { homePageUrl } from "../api/api";
+import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
+import useCurrencyExchangeStore from "../../../shared/store";
+import Blink from "./blink";
 
 const symbols = [
   "btcusdc",
@@ -22,14 +25,17 @@ const symbols = [
   "dogeusdc",
 ];
 
-function LiveChartTable() {
+export default function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
+  const usdKrw = useUsdKrwExchangeRate();
+  const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
+  
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[10%]">종목</TableHead>
-          <TableHead className="text-right">현재가</TableHead>
+          <TableHead className="text-right min-w-[110px]">현재가</TableHead>
           <TableHead className="text-right">등락률</TableHead>
         </TableRow>
       </TableHeader>
@@ -41,6 +47,13 @@ function LiveChartTable() {
         )}
         {symbols.map((symbol, index) => {
           const info = tickerInfo[symbol];
+          const pctChange = info?.changePct ? parseFloat(info.changePct) : 0;
+          const krwPrice = info?.price
+            ? `${Math.trunc(parseFloat(info.price) * (usdKrw ?? 1)).toLocaleString()}원`
+            : "-";
+          const usdPrice = info?.price
+            ? `$${Number(parseFloat(info.price).toFixed(2)).toLocaleString()}`
+            : "-";
           return (
             <TableRow
               key={symbol + index}
@@ -54,14 +67,27 @@ function LiveChartTable() {
                   src={homePageUrl.upbitCoinImgUrl(
                     symbol.replace(STABLE_COIN, "").toUpperCase()
                   )}
-                  ticker={symbol
-                    .replace(STABLE_COIN, `/${STABLE_COIN}`)
-                    .toUpperCase()}
+                  ticker={symbol.replace(STABLE_COIN, "").toUpperCase()}
                 />
               </TableCell>
-              <TableCell className="text-right">{info?.price ?? "-"}</TableCell>
               <TableCell className="text-right">
-                <p className="pr-2">{info?.changePct ?? "-"}</p>
+                <p className="text-toss-lg">{isKrw ? krwPrice : usdPrice}</p>
+              </TableCell>
+              <TableCell className="h-[44px]">
+                <Blink pctChange={pctChange}>
+                  <p
+                    className={cn(
+                      "pr-2 text-toss-lg",
+                      pctChange > 0
+                        ? "text-foreground-toss-bull"
+                        : "text-foreground-toss-bear"
+                    )}
+                  >
+                    {info?.changePct
+                      ? `${pctChange > 0 ? "+" : ""}${pctChange.toFixed(1)}%`
+                      : "-"}
+                  </p>
+                </Blink>
               </TableCell>
             </TableRow>
           );
@@ -70,5 +96,3 @@ function LiveChartTable() {
     </Table>
   );
 }
-
-export default LiveChartTable;

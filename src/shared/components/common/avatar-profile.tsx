@@ -21,7 +21,7 @@ function AvatarProfile({
           src={src}
           alt="@shadcn"
           className={cn(
-            "rounded-full",
+            "rounded-full bg-background-toss-light",
             avatarSize === "md" ? "w-[30px] h-[30px]" : "w-6 h-6"
           )}
         />

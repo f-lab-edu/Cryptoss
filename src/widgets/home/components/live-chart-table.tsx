@@ -8,9 +8,9 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { cn } from "@/shared/lib/utils";
-import useCoinIcons from "../hooks/useCoinIcons";
 import useBinanceTickerInfo from "../hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
+import { homePageUrl } from "../api/api";
 
 const symbols = [
   "btcusdc",
@@ -24,7 +24,6 @@ const symbols = [
 
 function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
-  const icons = useCoinIcons(symbols);
   return (
     <Table>
       <TableHeader>
@@ -52,10 +51,12 @@ function LiveChartTable() {
             >
               <TableCell>
                 <AvatarProfile
-                  src={icons[symbol.replace(STABLE_COIN, "")] ?? ""}
+                  src={homePageUrl.upbitCoinImgUrl(
+                    symbol.replace(STABLE_COIN, "").toUpperCase()
+                  )}
                   ticker={symbol
-                    .toUpperCase()
-                    .replace(STABLE_COIN, `/${STABLE_COIN}`)}
+                    .replace(STABLE_COIN, `/${STABLE_COIN}`)
+                    .toUpperCase()}
                 />
               </TableCell>
               <TableCell className="text-right">{info?.price ?? "-"}</TableCell>

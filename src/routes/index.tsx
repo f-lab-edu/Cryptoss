@@ -31,4 +31,4 @@ function Index() {
       </main>
     </div>
   );
-}
+} 

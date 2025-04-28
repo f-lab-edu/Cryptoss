@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { cn } from "@/shared/lib/utils";
-import useCoinIcons from "../hooks/useCoinIcons";
 import useBinanceTickerInfo from "../hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
 import { homePageUrl } from "../api/api";
@@ -25,7 +24,6 @@ const symbols = [
 
 function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
-  const icons = useCoinIcons(symbols);
   return (
     <Table>
       <TableHeader>

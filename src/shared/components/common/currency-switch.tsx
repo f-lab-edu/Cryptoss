@@ -8,12 +8,14 @@ interface Props {
 }
 
 function CurrencySwitch({ leftText, rightText }: Props) {
-  const { isKrw, setIsKrw } = useCurrencyExchangeStore(
+  const { isKrw, setIsKrw, exchangeError } = useCurrencyExchangeStore(
     useShallow((state) => ({
       isKrw: state.isKrw,
       setIsKrw: state.setIsKrw,
+      exchangeError: state.exchangeError,
     }))
   );
+
   return (
     <div className="flex items-center space-x-2">
       <Switch
@@ -21,6 +23,7 @@ function CurrencySwitch({ leftText, rightText }: Props) {
         rightText={rightText}
         checked={isKrw}
         onCheckedChange={(checked) => setIsKrw(checked)}
+        disabled={exchangeError}
       />
     </div>
   );

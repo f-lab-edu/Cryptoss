@@ -2,19 +2,19 @@ import { useEffect, useRef, useState, ReactNode } from "react";
 import { cn } from "@/shared/lib/utils";
 
 interface ChangeBlinkProps {
-  pctChange: number;
+  changePct: number;
   children: ReactNode;
 }
 
-export default function Blink({ pctChange, children }: ChangeBlinkProps) {
-  const refinedPct = parseFloat(pctChange.toFixed(1));
-  const prevRef = useRef<number>(parseFloat(pctChange.toFixed(1)));
+export default function Blink({ changePct, children }: ChangeBlinkProps) {
+  const refinedPct = parseFloat(changePct.toFixed(1));
+  const prevRef = useRef<number>(parseFloat(changePct.toFixed(1)));
   const [flashCls, setFlashCls] = useState<string>("");
 
   useEffect(() => {
-    if (prevRef.current !== parseFloat(pctChange.toFixed(1))) {
+    if (prevRef.current !== parseFloat(changePct.toFixed(1))) {
       const colorBg =
-        pctChange < 0
+        changePct < 0
           ? "bg-background-toss-bull/30"
           : "bg-background-toss-bear/30";
 
@@ -26,7 +26,7 @@ export default function Blink({ pctChange, children }: ChangeBlinkProps) {
       const id = setTimeout(() => setFlashCls(""), 500);
       return () => clearTimeout(id);
     }
-  }, [pctChange, refinedPct]);
+  }, [changePct, refinedPct]);
 
   return (
     <div className="flex w-full h-full justify-end">

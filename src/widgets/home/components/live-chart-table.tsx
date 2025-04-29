@@ -47,7 +47,7 @@ export default function LiveChartTable() {
         )}
         {symbols.map((symbol, index) => {
           const info = tickerInfo[symbol];
-          const pctChange = info?.changePct ? parseFloat(info.changePct) : 0;
+          const changePct = info?.changePct ? parseFloat(info.changePct) : 0;
           const krwPrice = info?.price
             ? `${Math.trunc(parseFloat(info.price) * (usdKrw ?? 1)).toLocaleString()}원`
             : "-";
@@ -74,17 +74,17 @@ export default function LiveChartTable() {
                 <p className="text-toss-lg">{isKrw ? krwPrice : usdPrice}</p>
               </TableCell>
               <TableCell className="h-[44px]">
-                <Blink pctChange={pctChange}>
+                <Blink changePct={changePct}>
                   <p
                     className={cn(
                       "pr-2 text-toss-lg",
-                      pctChange > 0
+                      changePct > 0
                         ? "text-foreground-toss-bull"
                         : "text-foreground-toss-bear"
                     )}
                   >
                     {info?.changePct
-                      ? `${pctChange > 0 ? "+" : ""}${pctChange.toFixed(1)}%`
+                      ? `${changePct > 0 ? "+" : ""}${changePct.toFixed(1)}%`
                       : "-"}
                   </p>
                 </Blink>

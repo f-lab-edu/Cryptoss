@@ -21,8 +21,7 @@ const useUsdKrwExchangeRate = () => {
           );
           setRate(usdRate?.rate ?? null);
         }
-      } catch (err) {
-        console.error("환율 조회 실패", err);
+      } catch {
         setExchangeError(true);
         toast.error("환율 조회 오류", {
           description:
@@ -34,7 +33,7 @@ const useUsdKrwExchangeRate = () => {
     fetchRate();
     const id = setInterval(fetchRate, 300_000);
     return () => clearInterval(id);
-  }, []);
+  }, [setExchangeError]);
 
   return rate;
 };

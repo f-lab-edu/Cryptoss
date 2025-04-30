@@ -8,11 +8,10 @@ export const Route = createFileRoute("/ticker-details/$detailId")({
 
 function RouteComponent() {
   const { detailId } = Route.useParams();
-  console.log(detailId);
   return (
     <div className="pt-4 col gap-4">
       <header>
-        <TickerDetailHeader />
+        <TickerDetailHeader ticker={detailId} />
       </header>
       <main>
         <LiveTradingChart />

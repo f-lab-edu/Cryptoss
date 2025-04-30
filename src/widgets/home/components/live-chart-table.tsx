@@ -32,6 +32,12 @@ export default function LiveChartTable() {
   const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
   const navigate = useNavigate();
 
+  const handleNavigate = (symbol: string) =>
+    navigate({
+      to: "/ticker-details/$detailId",
+      params: { detailId: symbol },
+    });
+
   return (
     <Table>
       <TableHeader>
@@ -65,12 +71,12 @@ export default function LiveChartTable() {
               )}
               tabIndex={0}
               role="button"
-              onClick={() =>
-                navigate({
-                  to: "/ticker-details/$detailId",
-                  params: { detailId: symbol },
-                })
-              }
+              onClick={() => handleNavigate(symbol)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleNavigate(symbol);
+                }
+              }}
             >
               <TableCell>
                 <AvatarProfile

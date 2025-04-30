@@ -12,12 +12,26 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as TickerDetailsIndexImport } from './routes/ticker-details/index'
+import { Route as TickerDetailsDetailIdImport } from './routes/ticker-details/$detailId'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TickerDetailsIndexRoute = TickerDetailsIndexImport.update({
+  id: '/ticker-details/',
+  path: '/ticker-details/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TickerDetailsDetailIdRoute = TickerDetailsDetailIdImport.update({
+  id: '/ticker-details/$detailId',
+  path: '/ticker-details/$detailId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -32,6 +46,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/ticker-details/$detailId': {
+      id: '/ticker-details/$detailId'
+      path: '/ticker-details/$detailId'
+      fullPath: '/ticker-details/$detailId'
+      preLoaderRoute: typeof TickerDetailsDetailIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/ticker-details/': {
+      id: '/ticker-details/'
+      path: '/ticker-details'
+      fullPath: '/ticker-details'
+      preLoaderRoute: typeof TickerDetailsIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +67,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ticker-details/$detailId': typeof TickerDetailsDetailIdRoute
+  '/ticker-details': typeof TickerDetailsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ticker-details/$detailId': typeof TickerDetailsDetailIdRoute
+  '/ticker-details': typeof TickerDetailsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/ticker-details/$detailId': typeof TickerDetailsDetailIdRoute
+  '/ticker-details/': typeof TickerDetailsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ticker-details/$detailId' | '/ticker-details'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ticker-details/$detailId' | '/ticker-details'
+  id: '__root__' | '/' | '/ticker-details/$detailId' | '/ticker-details/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TickerDetailsDetailIdRoute: typeof TickerDetailsDetailIdRoute
+  TickerDetailsIndexRoute: typeof TickerDetailsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TickerDetailsDetailIdRoute: TickerDetailsDetailIdRoute,
+  TickerDetailsIndexRoute: TickerDetailsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +115,19 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/ticker-details/$detailId",
+        "/ticker-details/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/ticker-details/$detailId": {
+      "filePath": "ticker-details/$detailId.tsx"
+    },
+    "/ticker-details/": {
+      "filePath": "ticker-details/index.tsx"
     }
   }
 }

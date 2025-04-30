@@ -14,6 +14,7 @@ import { homePageUrl } from "../api/api";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
 import useCurrencyExchangeStore from "../../../shared/store";
 import Blink from "./blink";
+import { useNavigate } from "@tanstack/react-router";
 
 const symbols = [
   "btcusdc",
@@ -29,7 +30,8 @@ export default function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
   const usdKrw = useUsdKrwExchangeRate();
   const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
-  
+  const navigate = useNavigate();
+
   return (
     <Table>
       <TableHeader>
@@ -58,9 +60,17 @@ export default function LiveChartTable() {
             <TableRow
               key={symbol + index}
               className={cn(
-                "text-foreground-toss",
+                "text-foreground-toss cursor-pointer",
                 (index + 1) % 2 !== 0 && "bg-background-toss-secondary/50"
               )}
+              tabIndex={0}
+              role="button"
+              onClick={() =>
+                navigate({
+                  to: "/ticker-details/$detailId",
+                  params: { detailId: symbol },
+                })
+              }
             >
               <TableCell>
                 <AvatarProfile

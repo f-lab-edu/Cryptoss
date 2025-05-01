@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default function TickerDetailHeader({ ticker }: Props) {
-  console.log(ticker.replace(STABLE_COIN, "").toUpperCase());
   return (
     <div className="flex justify-between">
       <div className="flex gap-[10px] items-center">
@@ -31,7 +30,7 @@ export default function TickerDetailHeader({ ticker }: Props) {
           </div>
           <div className="flex gap-2 text-toss-md font-semibold items-center">
             <p className="text-foreground-toss text-toss-xl font-bold">price</p>
-            <div className="flex gap-1 text-foreground-toss-secondary">
+            <div className="flex gap-1 text-foreground-toss-secondary flex-wrap">
               <p>dollar</p>
               <p>|</p>
               <p>어제보다</p>

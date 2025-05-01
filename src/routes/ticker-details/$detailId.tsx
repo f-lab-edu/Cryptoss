@@ -14,7 +14,12 @@ function RouteComponent() {
         <TickerDetailHeader ticker={detailId} />
       </header>
       <main>
-        <LiveTradingChart />
+        <LiveTradingChart
+          symbol={detailId.toUpperCase()}
+          interval="30m"
+          height={400}
+          width={660}
+        />
       </main>
     </div>
   );

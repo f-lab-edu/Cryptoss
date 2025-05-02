@@ -1,6 +1,5 @@
-import CurrencySwitch from "@/shared/components/common/currency-switch";
+import CurrencySwitch from "@/shared/components/common/CurrencySwitch";
 import { Avatar } from "@/shared/components/ui/avatar";
-import { DOLLAR, WON } from "@/shared/lib/constants";
 import { homePageUrl } from "@/widgets/home/api/api";
 import { STABLE_COIN } from "@/widgets/home/lib/constants";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -39,7 +38,7 @@ export default function TickerDetailHeader({ ticker }: Props) {
           </div>
         </div>
       </div>
-      <CurrencySwitch leftText={DOLLAR} rightText={WON} />
+      <CurrencySwitch />
     </div>
   );
 }

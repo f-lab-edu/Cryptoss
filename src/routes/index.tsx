@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import LiveChartTable from "@/widgets/home/components/live-chart-table";
-import HomePageHeader from "@/widgets/home/components/homepage-header";
+import LiveChartTable from "@/widgets/home/components/LiveChartTable";
+import HomePageHeader from "@/widgets/home/components/HomePageHeader";
 
 export const Route = createFileRoute("/")({
   component: Index,

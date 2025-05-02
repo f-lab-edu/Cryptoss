@@ -1,4 +1,4 @@
-import AvatarProfile from "@/shared/components/common/avatar-profile";
+import AvatarProfile from "@/shared/components/common/AvatarProfile";
 import {
   Table,
   TableBody,
@@ -13,8 +13,8 @@ import { STABLE_COIN } from "../lib/constants";
 import { homePageUrl } from "../api/api";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
 import useCurrencyExchangeStore from "../../../shared/store";
-import Blink from "./blink";
 import { useNavigate } from "@tanstack/react-router";
+import Blink from "./blink";
 
 const symbols = [
   "btcusdc",

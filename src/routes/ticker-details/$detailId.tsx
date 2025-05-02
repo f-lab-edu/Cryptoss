@@ -1,5 +1,5 @@
-import LiveTradingChart from "@/widgets/ticker-detail/components/live-trading-chart";
-import TickerDetailHeader from "@/widgets/ticker-detail/components/ticker-detail-header";
+import LiveTradingChart from "@/widgets/ticker-detail/components/LiveTradingChart";
+import TickerDetailHeader from "@/widgets/ticker-detail/components/TickerDetailHeader";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ticker-details/$detailId")({

@@ -1,13 +1,9 @@
 import useCurrencyExchangeStore from "@/shared/store";
 import { Switch } from "../ui/switch";
 import { useShallow } from "zustand/react/shallow";
+import { DOLLAR, WON } from "@/shared/lib/constants";
 
-interface Props {
-  leftText: string;
-  rightText: string;
-}
-
-function CurrencySwitch({ leftText, rightText }: Props) {
+function CurrencySwitch() {
   const { isKrw, setIsKrw, exchangeError } = useCurrencyExchangeStore(
     useShallow((state) => ({
       isKrw: state.isKrw,
@@ -19,8 +15,8 @@ function CurrencySwitch({ leftText, rightText }: Props) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
-        leftText={leftText}
-        rightText={rightText}
+        leftText={DOLLAR}
+        rightText={WON}
         checked={isKrw}
         onCheckedChange={(checked) => setIsKrw(checked)}
         disabled={exchangeError}

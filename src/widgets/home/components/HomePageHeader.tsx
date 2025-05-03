@@ -1,6 +1,5 @@
-import CurrencySwitch from "@/shared/components/common/currency-switch";
+import CurrencySwitch from "@/shared/components/common/CurrencySwitch";
 import { Button } from "@/shared/components/ui/button";
-import { DOLLAR, WON } from "@/shared/lib/constants";
 import { PlusIcon } from "lucide-react";
 
 export default function HomePageHeader() {
@@ -16,7 +15,7 @@ export default function HomePageHeader() {
         </Button>
       </div>
       <div className="flex justify-end">
-        <CurrencySwitch leftText={DOLLAR} rightText={WON} />
+        <CurrencySwitch />
       </div>
     </>
   );

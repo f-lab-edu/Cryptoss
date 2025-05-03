@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import AvatarProfile, { AvatarProfileProps } from "./avatar-profile";
+import AvatarProfile, { AvatarProfileProps } from "./AvatarProfile";
 
 interface Props extends AvatarProfileProps {
   children: ReactElement;

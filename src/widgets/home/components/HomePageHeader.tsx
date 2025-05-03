@@ -1,6 +1,6 @@
 import CurrencySwitch from "@/shared/components/common/CurrencySwitch";
 import { Button } from "@/shared/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import PlusIcon from "@/assets/icons/plus.svg?react";
 
 export default function HomePageHeader() {
   return (

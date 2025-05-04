@@ -17,10 +17,7 @@ interface Props {
 export default function SeriesSelector({ value, setValue }: Props) {
   return (
     <Select value={value} onValueChange={(value) => setValue(value)}>
-      <SelectTrigger
-        className="w-[150px]"
-        icon={false}
-      >
+      <SelectTrigger className="w-[120px]" icon={false}>
         <SelectValue>
           {value === "candle" ? <CandleIcon /> : <AreaIcon />}
           차트모양

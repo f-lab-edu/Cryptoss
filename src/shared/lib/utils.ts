@@ -11,6 +11,19 @@ const twMerge = extendTailwindMerge({
   },
 });
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(...inputs));
-}
+};
+
+export const formatToKrw = (price: number | string, krw: number | null) => {
+  const refinedPrice = typeof price === "number" ? price : parseFloat(price);
+  const krwRate = krw ?? 1;
+
+  return Math.trunc(refinedPrice * krwRate).toLocaleString("ko-KR");
+};
+
+export const formatToUsd = (price: number | string) => {
+  const refinedPrice = typeof price === "number" ? price : parseFloat(price);
+
+  return Number(refinedPrice.toFixed(2)).toLocaleString("en-US");
+};

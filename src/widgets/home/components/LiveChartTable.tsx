@@ -7,14 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { cn } from "@/shared/lib/utils";
+import { cn, formatToKrw, formatToUsd } from "@/shared/lib/utils";
 import useBinanceTickerInfo from "../hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
 import { homePageUrl } from "../api/api";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
 import useCurrencyExchangeStore from "../../../shared/store";
 import { useNavigate } from "@tanstack/react-router";
-import Blink from "./blink";
+import Blink from "./Blink";
 
 const symbols = [
   "btcusdc",
@@ -28,7 +28,7 @@ const symbols = [
 
 export default function LiveChartTable() {
   const tickerInfo = useBinanceTickerInfo(symbols);
-  const usdKrw = useUsdKrwExchangeRate();
+  const krwRate = useUsdKrwExchangeRate();
   const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
   const navigate = useNavigate();
 
@@ -57,11 +57,9 @@ export default function LiveChartTable() {
           const info = tickerInfo[symbol];
           const changePct = info?.changePct ? parseFloat(info.changePct) : 0;
           const krwPrice = info?.price
-            ? `${Math.trunc(parseFloat(info.price) * (usdKrw ?? 1)).toLocaleString()}원`
+            ? `${formatToKrw(info.price, krwRate)}원`
             : "-";
-          const usdPrice = info?.price
-            ? `$${Number(parseFloat(info.price).toFixed(2)).toLocaleString()}`
-            : "-";
+          const usdPrice = info?.price ? `$${formatToUsd(info.price)}` : "-";
           return (
             <TableRow
               key={symbol + index}

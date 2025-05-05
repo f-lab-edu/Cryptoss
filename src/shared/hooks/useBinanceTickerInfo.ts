@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { homePageWsUrl } from "../api/ws";
+import { commonWsUrl } from "../api/ws";
 
 interface BinanceTickerInfo {
   s: string; // Symbol
@@ -21,7 +21,7 @@ const useBinanceTickerInfo = (symbols: string[]) => {
   useEffect(() => {
     if (symbols.length === 0) return;
     const streams = symbols.map((symbol) => `${symbol}@ticker`).join("/");
-    const url = homePageWsUrl.binanceWsUrl(streams);
+    const url = commonWsUrl.binanceWsUrl(streams);
 
     const connect = () => {
       const ws = new WebSocket(url);

@@ -8,13 +8,13 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { cn, formatToKrw, formatToUsd } from "@/shared/lib/utils";
-import useBinanceTickerInfo from "../hooks/useBinanceTickerInfo";
+import useBinanceTickerInfo from "../../../shared/hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
-import { homePageUrl } from "../api/api";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
 import useCurrencyExchangeStore from "../../../shared/store";
 import { useNavigate } from "@tanstack/react-router";
 import Blink from "./Blink";
+import { commonUrl } from "@/shared/api/api";
 
 const symbols = [
   "btcusdc",
@@ -78,7 +78,7 @@ export default function LiveChartTable() {
             >
               <TableCell>
                 <AvatarProfile
-                  src={homePageUrl.upbitCoinImgUrl(
+                  src={commonUrl.upbitCoinImgUrl(
                     symbol.replace(STABLE_COIN, "").toUpperCase()
                   )}
                   ticker={symbol.replace(STABLE_COIN, "").toUpperCase()}

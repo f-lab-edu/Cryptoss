@@ -9,7 +9,7 @@ export const Route = createFileRoute("/edit-ticker")({
 function RouteComponent() {
   return (
     <div className="p-5">
-      <header className="col gap-4">
+      <header>
         <EditTickerHeader />
       </header>
       <main className="pt-4">

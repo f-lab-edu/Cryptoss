@@ -15,11 +15,10 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(...inputs));
 };
 
-export const formatToKrw = (price: number | string, krw: number | null) => {
+export const formatToKrw = (price: number | string, krwRate: number | null) => {
   const refinedPrice = typeof price === "number" ? price : parseFloat(price);
-  const krwRate = krw ?? 1;
 
-  return Math.trunc(refinedPrice * krwRate).toLocaleString("ko-KR");
+  return Math.trunc(refinedPrice * (krwRate ?? 1)).toLocaleString("ko-KR");
 };
 
 export const formatToUsd = (price: number | string) => {

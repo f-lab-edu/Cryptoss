@@ -11,12 +11,15 @@ import AreaIcon from "@/assets/icons/area.svg?react";
 
 interface Props {
   value: string;
-  setValue: (value: string) => void;
+  setValue: (value: "candle" | "area") => void;
 }
 
 export default function SeriesSelector({ value, setValue }: Props) {
   return (
-    <Select value={value} onValueChange={(value) => setValue(value)}>
+    <Select
+      value={value}
+      onValueChange={(value) => setValue(value as "candle" | "area")}
+    >
       <SelectTrigger className="w-[120px]" icon={false}>
         <SelectValue>
           {value === "candle" ? <CandleIcon /> : <AreaIcon />}

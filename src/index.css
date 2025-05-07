@@ -24,6 +24,7 @@
   --color-background-toss-brand: var(--background-toss-brand);
   --color-background-toss-tertiary: var(--background-toss-tertiary);
   --color-background-toss-warn: var(--background-toss-warn);
+  --color-background-toss-hover: var(--background-toss-hover);
   --color-foreground: var(--foreground);
   --color-foreground-toss: var(--text-toss);
   --color-foreground-toss-secondary: var(--text-toss-secondary);
@@ -113,6 +114,7 @@
   --background-toss-bull: oklch(0.56 0.1759 258.67);
   --background-toss-brand: oklch(0.63 0.1915 258.27);
   --background-toss-warn: oklch(0.64 0.2093 20.98);
+  --background-toss-hover: oklch(0.9 0.0519 285.31 / 11%);
   --text-toss: oklch(0.92 0.0013 286.37);
   --text-toss-bull: oklch(0.64 0.2093 20.66);
   --text-toss-bear: oklch(0.63 0.1915 258.27);

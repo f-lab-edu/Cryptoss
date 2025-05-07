@@ -16,7 +16,6 @@ function RouteComponent() {
       <main>
         <LiveTradingChart
           symbol={detailId.toUpperCase()}
-          interval="30m"
           height={400}
           width={660}
         />

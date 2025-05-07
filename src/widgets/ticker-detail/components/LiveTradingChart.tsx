@@ -1,31 +1,49 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import {
   createChart,
   CandlestickSeries,
-  // ISeriesApi,
   CandlestickData,
   UTCTimestamp,
+  ISeriesApi,
+  AreaSeries,
+  AreaData,
 } from "lightweight-charts";
 import { tickerDetailApi } from "../api/api";
 import { tickerDetailWsUrl } from "../api/ws";
 import { KST_OFFSET } from "../lib/constants";
+import SeriesSelector from "./SeriesSelector";
+import IntervalSelector from "./IntervalSelector";
+import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
+import useCurrencyExchangeStore from "@/shared/store";
+import { calcPrice } from "../lib/utils";
 
 interface BinanceChartProps {
   symbol: string;
-  interval?: string;
   width?: number;
   height?: number;
 }
 
 export default function LiveTradingChart({
   symbol,
-  interval = "15m",
   width = 660,
   height = 400,
 }: BinanceChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  // const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
+  const seriesRef = useRef<
+    ISeriesApi<"Candlestick"> | ISeriesApi<"Area"> | null
+  >(null);
   const wsRef = useRef<WebSocket | null>(null);
+
+  const [seriesValue, setSeriesValue] = useState("candle");
+  const [intervalValue, setIntervalValue] = useState("4h");
+
+  const krwRate = useUsdKrwExchangeRate();
+  const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
+
+  const formatPrice = useCallback(
+    (price: string) => calcPrice(parseFloat(price), krwRate, isKrw),
+    [isKrw, krwRate]
+  );
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -41,6 +59,10 @@ export default function LiveTradingChart({
       },
       rightPriceScale: { borderColor: "#555555" },
       timeScale: { borderColor: "#555555", timeVisible: true },
+      localization: {
+        priceFormatter: (price: number) =>
+          isKrw ? price.toLocaleString("ko-KR") : price.toLocaleString("en-US"),
+      },
     });
     const candleSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#26a69a",
@@ -48,41 +70,75 @@ export default function LiveTradingChart({
       wickVisible: true,
       borderVisible: false,
     });
-    // seriesRef.current = candleSeries;
+    const areaSeries = chart.addSeries(AreaSeries, {
+      topColor: "rgba(38, 166, 154, 0.5)",
+      bottomColor: "rgba(38, 166, 154, 0.1)",
+      lineColor: "#26a69a",
+      lineWidth: 2,
+    });
+
+    seriesRef.current = seriesValue === "candle" ? candleSeries : areaSeries;
+    const series = seriesRef.current;
 
     const getCandleHistory = async () => {
+      if (!series) return;
+
       const { data } = await tickerDetailApi.binanceCandleHistoryApi(
         symbol,
-        interval
+        intervalValue
       );
 
-      const candleHistoryData: CandlestickData<UTCTimestamp>[] = data.map(
-        (d: never[]) => ({
-          time: ((d[0] + KST_OFFSET) / 1000) as UTCTimestamp,
-          open: parseFloat(d[1]),
-          high: parseFloat(d[2]),
-          low: parseFloat(d[3]),
-          close: parseFloat(d[4]),
-        })
-      );
-      candleSeries.setData(candleHistoryData);
+      if (seriesValue === "candle") {
+        const candleHistoryData: CandlestickData<UTCTimestamp>[] = data.map(
+          (d: never[]) => ({
+            time: ((d[0] + KST_OFFSET) / 1000) as UTCTimestamp,
+            open: formatPrice(d[1]),
+            high: formatPrice(d[2]),
+            low: formatPrice(d[3]),
+            close: formatPrice(d[4]),
+          })
+        );
+        series.setData(candleHistoryData);
+      } else {
+        const areaHistoryData: AreaData<UTCTimestamp>[] = data.map(
+          (d: never[]) => ({
+            time: ((d[0] + KST_OFFSET) / 1000) as UTCTimestamp,
+            value: parseFloat(d[4]),
+          })
+        );
+        series.setData(areaHistoryData);
+      }
     };
     getCandleHistory();
 
     const ws = new WebSocket(
-      tickerDetailWsUrl.binanceCandleWsUrl(symbol.toLocaleLowerCase(), interval)
+      tickerDetailWsUrl.binanceCandleWsUrl(
+        symbol.toLocaleLowerCase(),
+        intervalValue
+      )
     );
     ws.onmessage = (e) => {
+      if (!series) return;
+
       const msg = JSON.parse(e.data);
       const k = msg.k;
-      const tick: CandlestickData = {
-        time: ((k.t + KST_OFFSET) / 1000) as UTCTimestamp,
-        open: parseFloat(k.o),
-        high: parseFloat(k.h),
-        low: parseFloat(k.l),
-        close: parseFloat(k.c),
-      };
-      candleSeries.update(tick);
+
+      if (seriesValue === "candle") {
+        const tick: CandlestickData = {
+          time: ((k.t + KST_OFFSET) / 1000) as UTCTimestamp,
+          open: formatPrice(k.o),
+          high: formatPrice(k.h),
+          low: formatPrice(k.l),
+          close: formatPrice(k.c),
+        };
+        series.update(tick);
+      } else {
+        const tick: AreaData = {
+          time: ((k.t + KST_OFFSET) / 1000) as UTCTimestamp,
+          value: parseFloat(k.c),
+        };
+        series.update(tick);
+      }
     };
     wsRef.current = ws;
 
@@ -98,11 +154,21 @@ export default function LiveTradingChart({
       window.removeEventListener("resize", handleResize);
       chart.remove();
     };
-  }, [symbol, interval, width, height]);
+  }, [symbol, intervalValue, width, height, seriesValue, formatPrice, isKrw]);
 
   return (
-    <div>
+    <div className="col items-end gap-4">
       <div ref={containerRef} style={{ width: "100%", height }} />
+      <div className="flex gap-4">
+        <SeriesSelector
+          value={seriesValue}
+          setValue={(value: string) => setSeriesValue(value)}
+        />
+        <IntervalSelector
+          value={intervalValue}
+          setValue={(value: string) => setIntervalValue(value)}
+        />
+      </div>
     </div>
   );
 }

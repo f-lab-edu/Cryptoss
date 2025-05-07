@@ -29,7 +29,7 @@ function AvatarProfile({
       </Avatar>
       <p
         className={cn(
-          "flex-center font-semibold",
+          "flex-center font-semibold text-foreground-toss",
           tickerSize === "lg" ? "text-toss-lg" : "text-toss-md"
         )}
       >

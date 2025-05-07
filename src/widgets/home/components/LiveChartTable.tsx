@@ -60,6 +60,7 @@ export default function LiveChartTable() {
             ? `${formatToKrw(info.price, krwRate)}원`
             : "-";
           const usdPrice = info?.price ? `$${formatToUsd(info.price)}` : "-";
+          const symbolCapital = symbol.replace(STABLE_COIN, "").toUpperCase();
           return (
             <TableRow
               key={symbol + index}
@@ -78,10 +79,8 @@ export default function LiveChartTable() {
             >
               <TableCell>
                 <AvatarProfile
-                  src={commonUrl.upbitCoinImgUrl(
-                    symbol.replace(STABLE_COIN, "").toUpperCase()
-                  )}
-                  ticker={symbol.replace(STABLE_COIN, "").toUpperCase()}
+                  src={commonUrl.upbitCoinImgUrl(symbolCapital)}
+                  ticker={symbolCapital}
                 />
               </TableCell>
               <TableCell className="text-right">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { STABLE_COIN } from "../../home/lib/constants";
+import { STABLE_COIN } from "@/widgets/home/lib/constants";
 import { tickerDetailApi } from "../api/api";
 
 function useCoinName(symbols: string[]) {

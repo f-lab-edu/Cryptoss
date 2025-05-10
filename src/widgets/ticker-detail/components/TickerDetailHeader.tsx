@@ -4,7 +4,7 @@ import { Avatar } from "@/shared/components/ui/avatar";
 import useBinanceTickerInfo from "@/shared/hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "@/widgets/home/lib/constants";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import useCoinName from "../hooks/useCoinIcons";
+import useCoinName from "../hooks/useCoinName";
 import useCurrencyExchangeStore from "@/shared/store";
 import { formatToKrw, formatToUsd } from "@/shared/lib/utils";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";

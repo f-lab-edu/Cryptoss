@@ -1,4 +1,3 @@
-import AvatarProfile from "@/shared/components/common/AvatarProfile";
 import {
   Table,
   TableBody,
@@ -7,36 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { cn, formatToKrw, formatToUsd } from "@/shared/lib/utils";
-import { STABLE_COIN } from "../lib/constants";
-import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
-import { useNavigate } from "@tanstack/react-router";
-import Blink from "./Blink";
-import { commonUrl } from "@/shared/api/api";
-import useBinanceTickerInfo from "@/shared/hooks/useBinanceTickerInfo";
-import useCurrencyExchangeStore from "@/shared/store";
-
-const symbols = [
-  "btcusdc",
-  "ethusdc",
-  "xrpusdc",
-  "solusdc",
-  "adausdc",
-  "xlmusdc",
-  "dogeusdc",
-];
+import useTickerApi from "@/shared/hooks/useTickerApi";
+import LiveChartTableRow from "@/widgets/home/components/LiveChartTableRow";
 
 export default function LiveChartTable() {
-  const tickerInfo = useBinanceTickerInfo(symbols);
-  const krwRate = useUsdKrwExchangeRate();
-  const isKrw = useCurrencyExchangeStore((state) => state.isKrw);
-  const navigate = useNavigate();
-
-  const handleNavigate = (symbol: string) =>
-    navigate({
-      to: "/ticker-details/$detailId",
-      params: { detailId: symbol },
-    });
+  const { tickers } = useTickerApi();
 
   return (
     <Table>
@@ -48,63 +22,14 @@ export default function LiveChartTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {symbols.length === 0 && (
+        {tickers.length === 0 && (
           <TableRow>
             <TableCell colSpan={3}>No results.</TableCell>
           </TableRow>
         )}
-        {symbols.map((symbol, index) => {
-          const info = tickerInfo[symbol];
-          const changePct = info?.changePct ? parseFloat(info.changePct) : 0;
-          const krwPrice = info?.price
-            ? `${formatToKrw(info.price, krwRate)}원`
-            : "-";
-          const usdPrice = info?.price ? `$${formatToUsd(info.price)}` : "-";
-          const symbolCapital = symbol.replace(STABLE_COIN, "").toUpperCase();
-          return (
-            <TableRow
-              key={symbol + index}
-              className={cn(
-                "text-foreground-toss cursor-pointer",
-                (index + 1) % 2 !== 0 && "bg-background-toss-secondary/50"
-              )}
-              tabIndex={0}
-              role="button"
-              onClick={() => handleNavigate(symbol)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleNavigate(symbol);
-                }
-              }}
-            >
-              <TableCell>
-                <AvatarProfile
-                  src={commonUrl.upbitCoinImgUrl(symbolCapital)}
-                  ticker={symbolCapital}
-                />
-              </TableCell>
-              <TableCell className="text-right">
-                <p className="text-toss-lg">{isKrw ? krwPrice : usdPrice}</p>
-              </TableCell>
-              <TableCell className="h-[44px]">
-                <Blink changePct={changePct}>
-                  <p
-                    className={cn(
-                      "pr-2 text-toss-lg",
-                      changePct > 0
-                        ? "text-foreground-toss-bull"
-                        : "text-foreground-toss-bear"
-                    )}
-                  >
-                    {info?.changePct
-                      ? `${changePct > 0 ? "+" : ""}${changePct.toFixed(1)}%`
-                      : "-"}
-                  </p>
-                </Blink>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {tickers.map((ticker, index) => (
+          <LiveChartTableRow ticker={ticker} index={index} />
+        ))}
       </TableBody>
     </Table>
   );

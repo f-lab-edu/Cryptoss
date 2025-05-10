@@ -1,25 +1,15 @@
-import { commonUrl } from "@/shared/api/api";
-import TickerCard from "@/shared/components/common/TickerCard";
-import { STABLE_COIN } from "@/widgets/home/lib/constants";
 import TickerEditModal from "./TickerEditModal";
-
-const symbols = ["btcusdc", "ethusdc"];
+import useTickerApi from "@/shared/hooks/useTickerApi";
+import AddedTickerItem from "@/widgets/edit-ticker/components/AddedTickerItem";
 
 export default function AddedTickerList() {
+  const { tickers } = useTickerApi();
+
   return (
-    <div className="col gap-2 pt-4">
+    <div className="col pt-4">
       <TickerEditModal />
-      {symbols.map((symbol) => (
-        <div className="px-1 py-2">
-          <TickerCard
-            src={commonUrl.upbitCoinImgUrl(
-              symbol.replace(STABLE_COIN, "").toUpperCase()
-            )}
-            ticker={symbol.replace(STABLE_COIN, "").toUpperCase()}
-          >
-            <p className="text-white">price</p>
-          </TickerCard>
-        </div>
+      {tickers.map((ticker) => (
+        <AddedTickerItem key={ticker.symbol} ticker={ticker} />
       ))}
     </div>
   );

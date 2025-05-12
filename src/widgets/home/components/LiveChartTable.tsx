@@ -8,13 +8,13 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { cn, formatToKrw, formatToUsd } from "@/shared/lib/utils";
-import useBinanceTickerInfo from "../../../shared/hooks/useBinanceTickerInfo";
 import { STABLE_COIN } from "../lib/constants";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
-import useCurrencyExchangeStore from "../../../shared/store";
 import { useNavigate } from "@tanstack/react-router";
 import Blink from "./Blink";
 import { commonUrl } from "@/shared/api/api";
+import useBinanceTickerInfo from "@/shared/hooks/useBinanceTickerInfo";
+import useCurrencyExchangeStore from "@/shared/store";
 
 const symbols = [
   "btcusdc",

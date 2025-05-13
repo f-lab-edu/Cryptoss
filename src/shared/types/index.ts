@@ -4,3 +4,5 @@ export interface MananaExchangeRate {
   rate: number;
   timestamp: string;
 }
+
+export type ChartType = "candle" | "area";

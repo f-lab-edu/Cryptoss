@@ -1,3 +1,4 @@
+import { ChartType } from "@/shared/types";
 import { tickerDetailApi } from "@/widgets/ticker-detail/api/api";
 import { KST_OFFSET } from "@/widgets/ticker-detail/lib/constants";
 import { AreaData, CandlestickData, UTCTimestamp } from "lightweight-charts";
@@ -6,7 +7,7 @@ import { useEffect } from "react";
 const useChartHistory = (
   symbol: string,
   interval: string,
-  seriesType: "candle" | "area",
+  seriesType: ChartType,
   formatPrice: (price: string) => number,
   setData: (
     data: CandlestickData<UTCTimestamp>[] | AreaData<UTCTimestamp>[]

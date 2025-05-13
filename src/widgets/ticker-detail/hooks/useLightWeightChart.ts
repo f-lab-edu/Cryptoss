@@ -1,3 +1,4 @@
+import { ChartType } from "@/shared/types";
 import {
   AreaSeries,
   CandlestickSeries,
@@ -10,7 +11,7 @@ import { RefObject, useEffect, useRef } from "react";
 
 const useLightWeightChart = (
   containerRef: RefObject<HTMLDivElement | null>,
-  seriesType: "candle" | "area",
+  seriesType: ChartType,
   chartOptions: DeepPartial<ChartOptions>
 ) => {
   const seriesRef = useRef<

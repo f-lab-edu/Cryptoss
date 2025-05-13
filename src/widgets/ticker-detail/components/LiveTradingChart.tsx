@@ -7,6 +7,7 @@ import { calcPrice } from "../lib/utils";
 import useLightWeightChart from "@/widgets/ticker-detail/hooks/useLightWeightChart";
 import useChartHistory from "@/widgets/ticker-detail/hooks/useChartHistory";
 import useChartWs from "@/widgets/ticker-detail/hooks/useChartWs";
+import { ChartType } from "@/shared/types";
 
 interface BinanceChartProps {
   symbol: string;
@@ -20,7 +21,7 @@ export default function LiveTradingChart({
 }: BinanceChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [seriesValue, setSeriesValue] = useState<"candle" | "area">("candle");
+  const [seriesValue, setSeriesValue] = useState<ChartType>("candle");
   const [intervalValue, setIntervalValue] = useState("4h");
 
   const krwRate = useUsdKrwExchangeRate();
@@ -60,7 +61,7 @@ export default function LiveTradingChart({
       <div className="flex gap-4">
         <SeriesSelector
           value={seriesValue}
-          setValue={(value: "candle" | "area") => setSeriesValue(value)}
+          setValue={(value: ChartType) => setSeriesValue(value)}
         />
         <IntervalSelector
           value={intervalValue}

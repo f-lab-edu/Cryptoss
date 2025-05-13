@@ -6,6 +6,13 @@ import "./index.css";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
+// import { registerSW } from 'virtual:pwa-register';
+
+// const updateSW = registerSW({
+//   onNeedRefresh() { /* 새 SW가 준비되면 알림 팝업 띄우기 */ },
+//   onOfflineReady() { /* 오프라인 준비 완료 시 처리 */ },
+// });
+
 // Create a new router instance
 const router = createRouter({ routeTree });
 

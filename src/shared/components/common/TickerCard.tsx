@@ -7,7 +7,7 @@ interface Props extends AvatarProfileProps {
 
 function TickerCard({ src, ticker, children }: Props) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center">
       <AvatarProfile src={src} ticker={ticker} />
       {children}
     </div>

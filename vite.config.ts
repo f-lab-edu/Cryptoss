@@ -6,7 +6,6 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import svgr from "vite-plugin-svgr";
 import { VitePWA } from "vite-plugin-pwa";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
@@ -16,8 +15,8 @@ export default defineConfig({
       include: "**/*.svg?react",
     }),
     VitePWA({
-      registerType: "autoUpdate", // 서비스 워커 자동 업데이트
-      includeAssets: ["favicon.svg", "*.png"],
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.svg", "cryptoss-logo.png"],
       manifest: {
         name: "Cryptoss",
         short_name: "Cryptoss",
@@ -32,7 +31,6 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // 빌드 시에 정적 자산을 자동 프리캐싱
         globPatterns: ["**/*.{js,css,html,svg,png}"],
         runtimeCaching: [
           {
@@ -42,7 +40,7 @@ export default defineConfig({
               cacheName: "api-cache",
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24, // 하루
+                maxAgeSeconds: 60 * 60 * 24,
               },
             },
           },

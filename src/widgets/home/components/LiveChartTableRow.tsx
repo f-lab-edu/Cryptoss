@@ -6,7 +6,7 @@ import useBinanceTickerInfo from "@/shared/hooks/useBinanceTickerInfo";
 import useUsdKrwExchangeRate from "@/shared/hooks/useUsdKrwExchangeRate";
 import { cn, formatToKrw, formatToUsd } from "@/shared/lib/utils";
 import useCurrencyExchangeStore from "@/shared/store";
-import Blink from "@/widgets/home/components/Blink";
+import Blink from "@/widgets/home/components/blink";
 import { STABLE_COIN } from "@/widgets/home/lib/constants";
 import { useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";

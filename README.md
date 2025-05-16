@@ -1,107 +1,178 @@
 # Cryptoss (크립토스)
 
-개인 가상화폐 시세 확인 서비스인 **Cryptoss (크립토스)** 입니다.  
-기존 서비스들에서는 시세 확인 시 로딩, 검색, 광고 등으로 인해 확인까지 시간이 오래 걸리는 문제를 해결하고자 이 프로젝트를 진행합니다.
+- 배포 : [https://cryptoss-five.vercel.app/](https://cryptoss-five.vercel.app/)
+
+### 프로젝트 설명
+
+- 개인 가상화폐 시세 확인 서비스인 **Cryptoss (크립토스)** 입니다.
+- 기존 시세 확인 서비스들에서는 시세 확인 시 로딩, 검색, 광고 등으로 인해 확인까지 시간이 오래 걸리는 문제를 해결하고자 이 프로젝트를 진행합니다.
+
+### 프로젝트 설계
+
+- 디자인은 토스증권이 가상화폐 관련 서비스도 제공한다면 어떤 느낌일까 하는 아이디어에서 </br>
+  착안하여 토스증권을 참고 하였습니다.
+- 빠른 로딩이 중요하므로 최대한 속도가 빠른 경량 라이브러리들을 이용했습니다.</br>
+  (Vite-SWC/React/Bun/Tanstack-router 등)
+- 바이낸스 웹소켓 api를 이용하여 실시간 시세 정보를 받아왔습니다.
+- 경량화된 FSD 폴더 구조를 이용했습니다. </br>
+  shared -> widgets -> routes (이용 방향)
+- PWA 및 테스트 코드 적용(예정)
+
+## 🛠️ 기술 스택
+
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/swc-F8C457?style=for-the-badge&logo=swc&logoColor=black"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/tanstack_router-pink.svg?style=for-the-badge&logo=tanstackrouter&logoColor=white"> <br />
+<img src="https://img.shields.io/badge/zustand-06B6D4.svg?style=for-the-badge&logo=zustand&logoColor=white">
+<img src="https://img.shields.io/badge/tailwindcss-06B6D4.svg?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/shadcnui-000000?style=for-the-badge&logo=shadcnui"> <img src="https://img.shields.io/badge/vercel-000000.svg?style=for-the-badge&logo=vercel&logoColor=white"> <img src="https://img.shields.io/badge/bun-000000?style=for-the-badge&logo=bun&logoColor=white">
+
+---
+
+## ⚙️ 기능 구현
+
+- 실시간 차트 페이지(홈): 
+  - 웹소켓으로 받아오는 실시간 시세 정보 확인
+  - 종목 추가 버튼 클릭시 종목 편집 페이지로 이동
+  - 달러/원화 토글 기능
+  - indexedDB에 저장된 내 종목 리스트 아이템을 클릭하여 종목 상세 페이지로 이동
+
+- 종목 상세 페이지
+  - 트레이딩뷰 light-weight 차트를 이용하여 실시간 차트 시세 제공
+  - 차트 종류 변환 기능
+  - 차트 봉 시간대 변경 기능
+  - 달러/원화 토글 기능
+
+- 종목 편집 페이지
+  - 현재 저장된 내 종목 리스트 열람
+  - 추가하기 버튼을 통해 indexedDB에 종목을 추가할 수 있는 모달 팝업
+  - 기존 등록된 종목들 삭제 가능
+  - 바이낸스 api를 통해 특정 종목 검색하기 기능
+  - 검색된 종목 추가 기능
+
+
+## 🕹 프로젝트 실행
+
+```
+bun install
+bun dev
+```
 
 ---
 
 ## 커밋 컨벤션
-
-프로젝트에서 커밋 메시지를 작성할 때는 아래의 컨벤션을 따릅니다:
-
-- **init:** 초기 세팅 관련 
-- **feat:** 새로운 기능 추가  
-- **fix:** 버그 수정  
-- **docs:** 문서 수정  
-- **refactor:** 리팩토링 (기능 추가나 버그 수정과 무관한 코드 개선 및 포맷팅)  
-- **test:** 테스트 코드 추가 또는 수정  
-- **chore:** 빌드 작업, 패키지 업데이트 등 기타 마이너한 변경
+- **init:** 초기 세팅 관련
+- **feat:** 새로운 기능 추가
+- **fix:** 버그 수정
+- **docs:** 문서 수정
+- **refactor:** 리팩토링 (기능 추가나 버그 수정과 무관한 코드 개선 및 포맷팅)
+- **test:** 테스트 코드 추가 또는 수정
+- **chore:** 빌드 작업, 패키지 업데이트, 오타 수정 등 기타 마이너한 변경
 
 ---
 
-## 기술 스택
+## 트러블 슈팅 정리
+- 웹소켓 공통화
+- 이미지 가져오는 문제
+- PWA 문제
+- VERCEL 파일명 문제
+- 모달 사용 방식 및 위치 문제
 
-- **프론트엔드:**  
-  - Vite / React / TypeScript  
-  - Emotion, SCSS, StyleX, CSS Modules, Tailwind  
-    - 가벼운 스타일링 고려 및 UI 라이브러리 없이 직접 구현 가능성도 검토
-- **테스트:**  
-  - Vitest (또는 Jest) / React Testing Library (RTL)
-- **라우팅 및 상태 관리:**  
-  - Tanstack Router  
-  - Zustand (또는 jotai)
-- **데이터 관리:**  
-  - Tanstack Query  
-    - 웹 소켓을 이용하여 실시간 데이터를 불러올 경우 캐싱이 필요한지 여부 등 고려
-- **실시간 통신:**  
-  - Socket.IO
-- **반응형 및 레이아웃:**  
-  - media-query (container-query)
-- **브라우저 저장소:**  
-  - IndexedDB (CacheStorage)
-- **PWA (Progressive Web App):**  
-  - 오프라인 지원 및 모바일 최적화를 위한 PWA 적용
+## 🗂 폴더 구조
 
----
+```
 
-## 기능 상세 및 PR 계획
+📦src
+ ┣ 📂assets
+ ┃ ┣ 📂icons
+ ┃ ┃ ┣ 📜area.svg
+ ┃ ┃ ┣ 📜candle.svg
+ ┃ ┃ ┣ 📜plus.svg
+ ┃ ┃ ┣ 📜search.svg
+ ┃ ┃ ┗ 📜x.svg
+ ┃ ┣ 📜cryptoss-logo.png
+ ┃ ┗ 📜react.svg
+ ┣ 📂routes
+ ┃ ┣ 📂ticker-details
+ ┃ ┃ ┣ 📜$detailId.tsx
+ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┣ 📜__root.tsx
+ ┃ ┣ 📜edit-ticker.tsx
+ ┃ ┗ 📜index.tsx
+ ┣ 📂shared
+ ┃ ┣ 📂api
+ ┃ ┃ ┣ 📜api.ts
+ ┃ ┃ ┗ 📜ws.ts
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┣ 📜AvatarProfile.tsx
+ ┃ ┃ ┃ ┣ 📜CurrencySwitch.tsx
+ ┃ ┃ ┃ ┣ 📜Logo.tsx
+ ┃ ┃ ┃ ┣ 📜TickerCard.tsx
+ ┃ ┃ ┃ ┗ 📜Title.tsx
+ ┃ ┃ ┗ 📂ui
+ ┃ ┃ ┃ ┣ 📜avatar.tsx
+ ┃ ┃ ┃ ┣ 📜button.tsx
+ ┃ ┃ ┃ ┣ 📜dialog.tsx
+ ┃ ┃ ┃ ┣ 📜input.tsx
+ ┃ ┃ ┃ ┣ 📜label.tsx
+ ┃ ┃ ┃ ┣ 📜select.tsx
+ ┃ ┃ ┃ ┣ 📜sonner.tsx
+ ┃ ┃ ┃ ┣ 📜switch.tsx
+ ┃ ┃ ┃ ┗ 📜table.tsx
+ ┃ ┣ 📂db
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂hooks
+ ┃ ┃ ┣ 📜useBinanceTickerInfo.ts
+ ┃ ┃ ┣ 📜useTickerApi.ts
+ ┃ ┃ ┗ 📜useUsdKrwExchangeRate.ts
+ ┃ ┣ 📂lib
+ ┃ ┃ ┣ 📜constants.ts
+ ┃ ┃ ┗ 📜utils.ts
+ ┃ ┣ 📂store
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┗ 📂types
+ ┃ ┃ ┗ 📜index.ts
+ ┣ 📂widgets
+ ┃ ┣ 📂edit-ticker
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📜AddedTickerItem.tsx
+ ┃ ┃ ┃ ┣ 📜AddedTickerList.tsx
+ ┃ ┃ ┃ ┣ 📜EditTickerHeader.tsx
+ ┃ ┃ ┃ ┗ 📜TickerEditModal.tsx
+ ┃ ┃ ┗ 📂hooks
+ ┃ ┃ ┃ ┗ 📜useBinanceSearch.tsx
+ ┃ ┣ 📂home
+ ┃ ┃ ┣ 📂api
+ ┃ ┃ ┃ ┗ 📜api.ts
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📜Blink.tsx
+ ┃ ┃ ┃ ┣ 📜HomePageHeader.tsx
+ ┃ ┃ ┃ ┣ 📜LiveChartTable.tsx
+ ┃ ┃ ┃ ┗ 📜LiveChartTableRow.tsx
+ ┃ ┃ ┣ 📂lib
+ ┃ ┃ ┃ ┣ 📜constants.ts
+ ┃ ┃ ┃ ┗ 📜utils.ts
+ ┃ ┃ ┗ 📂types
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┗ 📂ticker-detail
+ ┃ ┃ ┣ 📂api
+ ┃ ┃ ┃ ┣ 📜api.ts
+ ┃ ┃ ┃ ┗ 📜ws.ts
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📜IntervalSelector.tsx
+ ┃ ┃ ┃ ┣ 📜LiveTradingChart.tsx
+ ┃ ┃ ┃ ┣ 📜SeriesSelector.tsx
+ ┃ ┃ ┃ ┗ 📜TickerDetailHeader.tsx
+ ┃ ┃ ┣ 📂hooks
+ ┃ ┃ ┃ ┣ 📜useChartHistory.ts
+ ┃ ┃ ┃ ┣ 📜useChartWs.ts
+ ┃ ┃ ┃ ┣ 📜useCoinName.ts
+ ┃ ┃ ┃ ┗ 📜useLightWeightChart.ts
+ ┃ ┃ ┗ 📂lib
+ ┃ ┃ ┃ ┣ 📜constants.ts
+ ┃ ┃ ┃ ┗ 📜utils.ts
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┣ 📜routeTree.gen.ts
+ ┗ 📜vite-env.d.ts
 
-### PR 계획
-
-프로젝트 진행은 아래와 같은 주차별 단계로 진행됩니다.
-
-#### **1주차**
-- **프로젝트 기획 및 디자인**  
-  - 토스와 유사한 디자인 참고  
-- **PR 계획 수립**
-
-#### **2주차**
-- **프로젝트 세팅 고도화 및 배포**  
-  - 프로젝트 초기 세팅, ESLint, 기본 라이브러리 설정 등  
-- **공통 컴포넌트 개발**  
-  - 공통 컴포넌트(Button, Input 등) 및 복합 컴포넌트(종목 Avatar) 설계  
-  - 공통 컴포넌트에 대한 테스트 코드 작성  
-- **실시간 차트 페이지 구현**  
-  - 페이지 구조 설계  
-  - 웹소켓 API 연결 및 등락률 변화 로직 구현  
-- **PR:**  
-  - 프로젝트 세팅 마무리, 기본 디자인 시스템 구성 (Color, Font, Border-Radius, Icon 등), 공통 컴포넌트 및 기능 구현
-
-#### **3주차**
-- **목록 상세 페이지 구현**  
-  - 목록 상세 페이지의 UI 구현  
-  - 차트 라이브러리 연결 및 차트 기능 개발  
-  - 캔들 차트에 점선 표시 방식 토글 기능 구현  
-- **PR:**  
-  - 목록 상세 페이지 관련 화면 구현 및 기능 PR
-
-#### **4주차**
-- **종목 편집 페이지 구현 및 PWA 적용**  
-  - 종목 편집 페이지 UI 구현 및 모달 기능 추가  
-  - 종목 리스트 API 연결, 검색 기능 구현, 종목 추가/삭제 기능 구현  
-  - IndexedDB 연결 및 PWA 기능 연동  
-- **PR:**  
-  - 종목 편집 페이지 관련 화면 구현 및 기능 PR
-
-#### **5주차**
-- **미완성 항목 보완**  
-  - 이전 주차에서 구현한 기능의 마무리 작업 및 개선
-
----
-
-## 배포 사이트
-
-- 배포 사이트: `https://cryptoss-five.vercel.app/`
-
----
-
-## 추가 참고 사항
-
-- **실시간 데이터 & 캐싱:**  
-  Tanstack Query를 활용한 경우, 웹 소켓을 통해 실시간 데이터를 받아올 때는 캐싱 전략을 재검토해야 합니다. 데이터의 갱신 주기 및 일관성을 고려하여 캐싱 사용 여부를 결정합니다.
-  
-- **UI 구현 방향:**  
-  가능하면 UI 라이브러리 대신 접근성 및 직접 스타일링을 고려하여 자체적으로 컴포넌트를 구현할 예정입니다.
-
----
-
+```

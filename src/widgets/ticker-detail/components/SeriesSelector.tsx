@@ -8,17 +8,18 @@ import {
 import { seriesOptions } from "../lib/constants";
 import CandleIcon from "@/assets/icons/candle.svg?react";
 import AreaIcon from "@/assets/icons/area.svg?react";
+import { ChartType } from "@/shared/types";
 
 interface Props {
   value: string;
-  setValue: (value: "candle" | "area") => void;
+  setValue: (value: ChartType) => void;
 }
 
 export default function SeriesSelector({ value, setValue }: Props) {
   return (
     <Select
       value={value}
-      onValueChange={(value) => setValue(value as "candle" | "area")}
+      onValueChange={(value) => setValue(value as ChartType)}
     >
       <SelectTrigger className="w-[120px]" icon={false}>
         <SelectValue>
